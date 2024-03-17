@@ -11,6 +11,16 @@ export class InMemoryDungeonMastersRepository
     this.items.push(dungeonMaster)
   }
 
+  async findById(id: string): Promise<DungeonMaster | null> {
+    const dungeonMaster = this.items.find((item) => item.id.toString() === id)
+
+    if (!dungeonMaster) {
+      return null
+    }
+
+    return dungeonMaster
+  }
+
   async findByEmail(email: string): Promise<DungeonMaster | null> {
     const dungeonMaster = this.items.find((item) => item.email === email)
 
