@@ -35,6 +35,10 @@ export class Campaign extends Entity<CampaignProps> {
     return this.props.characters
   }
 
+  set characters(characters: Character[]) {
+    this.props.characters = characters
+  }
+
   get createdAt() {
     return this.props.createdAt
   }

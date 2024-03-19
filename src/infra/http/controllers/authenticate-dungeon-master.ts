@@ -4,7 +4,6 @@ import {
   Controller,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common'
 import { z } from 'zod'
 
@@ -13,12 +12,14 @@ import { InvalidCredentialsError } from '@/domain/storytellers/application/use-c
 import { Public } from '@/infra/auth/public'
 import { ZodValidationPipe } from '@/infra/http/controllers/pipes/zod-validation-pipe'
 
-const authenticatePlayerBodySchema = z.object({
+const bodySchema = z.object({
   email: z.string().email(),
   password: z.string().min(6, 'Password has to have 6 characters'),
 })
 
-type AuthenticatePlayerBody = z.infer<typeof authenticatePlayerBodySchema>
+const bodyValidationPipe = new ZodValidationPipe(bodySchema)
+
+type BodySchema = z.infer<typeof bodySchema>
 
 @Controller('/sessions')
 @Public()
@@ -27,8 +28,7 @@ export class AuthenticateDungeonMasterController {
 
   @Post()
   @HttpCode(200)
-  @UsePipes(new ZodValidationPipe(authenticatePlayerBodySchema))
-  async handle(@Body() body: AuthenticatePlayerBody) {
+  async handle(@Body(bodyValidationPipe) body: BodySchema) {
     const { email, password } = body
 
     const result = await this.useCase.execute({ email, password })

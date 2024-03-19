@@ -5,7 +5,6 @@ import {
   Controller,
   HttpCode,
   Post,
-  UsePipes,
 } from '@nestjs/common'
 import { z } from 'zod'
 
@@ -20,6 +19,8 @@ export const bodySchema = z.object({
   password: z.string().min(6, 'Senha deve ter no mínimo 6 caracteres.'),
 })
 
+const bodyValidationPipe = new ZodValidationPipe(bodySchema)
+
 type BodySchema = z.infer<typeof bodySchema>
 
 @Controller('/dungeon-masters')
@@ -28,8 +29,7 @@ export class CreateDungeonMasterAccountController {
   constructor(private useCase: CreateDungeonMasterAccountUseCase) {}
   @Post()
   @HttpCode(201)
-  @UsePipes(new ZodValidationPipe(bodySchema))
-  async handle(@Body() body: BodySchema) {
+  async handle(@Body(bodyValidationPipe) body: BodySchema) {
     const { name, email, password } = body
 
     const result = await this.useCase.execute({ email, name, password })

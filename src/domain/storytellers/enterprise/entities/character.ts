@@ -7,6 +7,7 @@ export interface CharacterProps {
   initiativeRollBonus: number
   actualLifePoints: number
   maxLifePoints: number
+  campaignId: UniqueEntityId
   createdAt: Date
   updatedAt?: Date | null
 }
@@ -26,6 +27,10 @@ export class Character extends Entity<CharacterProps> {
 
   get maxLifePoints() {
     return this.props.maxLifePoints
+  }
+
+  get campaignId() {
+    return this.props.campaignId
   }
 
   get createdAt() {

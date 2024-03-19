@@ -13,7 +13,7 @@ interface CreateCampaignUseCaseRequest {
   name: string
   description: string
   rpgSystem: string
-  characters: Omit<Character, 'id' | 'createdAt' | 'updatedAt'>[]
+  characters: Omit<Character, 'id' | 'campaignId' | 'createdAt' | 'updatedAt'>[]
 }
 
 type CreateCampaignUseCaseResponse = Either<
@@ -42,17 +42,23 @@ export class CreateCampaignUseCase {
       return failure(new NotFoundError())
     }
 
-    const entityCharacters = characters.map((character) => {
-      return Character.create(character)
-    })
-
     const campaign = Campaign.create({
       name,
       description,
       rpgSystem,
       dungeonMasterId,
-      characters: entityCharacters,
+      // The characters need the campaignId to be created, they will be added with the id above
+      characters: [],
     })
+
+    const entityCharacters = characters.map((character) => {
+      return Character.create({
+        ...character,
+        campaignId: campaign.id,
+      })
+    })
+
+    campaign.characters = entityCharacters
 
     await this.campaignsRepository.create(campaign)
 

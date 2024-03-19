@@ -18,5 +18,34 @@ model DungeonMaster {
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime? @updatedAt @map("updated_at")
 
-  @@map("dungeon_master")
+  @@map("dungeon_masters")
+}
+
+model Campaign {
+  id              String      @id @default(uuid())
+  name            String
+  description     String
+  rpgSystem       String
+  dungeonMasterId String
+  characters      Character[]
+
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime? @updatedAt @map("updated_at")
+
+  @@map("campaigns")
+}
+
+model Character {
+  id                  String    @id @default(uuid())
+  name                String
+  initiativeRollBonus Int
+  actualLifePoints    Int
+  maxLifePoints       Int
+  campaignId          String
+  createdAt           DateTime  @default(now()) @map("created_at")
+  updatedAt           DateTime? @updatedAt @map("updated_at")
+
+  campaign Campaign? @relation(fields: [campaignId], references: [id])
+
+  @@map("characters")
 }
