@@ -8,4 +8,10 @@ export class InMemoryCampaignsRepository implements CampaignsRepository {
   async create(campaign: Campaign): Promise<void> {
     this.items.push(campaign)
   }
+
+  async findByDungeonMasterId(dungeonMasterId: string): Promise<Campaign[]> {
+    return this.items.filter(
+      (item) => item.dungeonMasterId.toString() === dungeonMasterId,
+    )
+  }
 }

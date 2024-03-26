@@ -8,7 +8,7 @@ export interface CampaignProps {
   name: string
   description: string
   rpgSystem: string
-  dungeonMasterId: string
+  dungeonMasterId: UniqueEntityId
   characters: Character[]
   createdAt: Date
   updatedAt?: Date | null

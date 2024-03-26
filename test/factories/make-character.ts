@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { Injectable } from '@nestjs/common'
 
-// import { Injectable } from '@nestjs/common'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 import {
   Character,

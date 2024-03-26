@@ -16,7 +16,7 @@ export class PrismaCampaignWithCharactersMapper {
   static toDomain(raw: PrismaCampaignWithCharacters): DomainCampaign {
     return DomainCampaign.create(
       {
-        dungeonMasterId: raw.dungeonMasterId,
+        dungeonMasterId: new UniqueEntityId(raw.dungeonMasterId),
         name: raw.name,
         description: raw.description,
         rpgSystem: raw.rpgSystem,
@@ -31,7 +31,7 @@ export class PrismaCampaignWithCharactersMapper {
   static toPrisma(raw: DomainCampaign): PrismaCampaignWithCharacters {
     return {
       id: raw.id.toString(),
-      dungeonMasterId: raw.dungeonMasterId,
+      dungeonMasterId: raw.dungeonMasterId.toString(),
       name: raw.name,
       description: raw.description,
       rpgSystem: raw.rpgSystem,
