@@ -46,7 +46,7 @@ export class CreateCampaignUseCase {
       name,
       description,
       rpgSystem,
-      dungeonMasterId,
+      dungeonMasterId: dungeonMaster.id,
       // The characters need the campaignId to be created, they will be added with the id above
       characters: [],
     })

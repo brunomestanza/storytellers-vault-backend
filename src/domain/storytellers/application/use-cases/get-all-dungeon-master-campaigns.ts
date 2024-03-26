@@ -10,7 +10,7 @@ interface GetAllDungeonMasterCampaignsUseCaseRequest {
 }
 
 type GetAllDungeonMasterCampaignsUseCaseResponse = Either<
-  null,
+  never,
   { campaigns: Campaign[] }
 >
 
